@@ -7,10 +7,10 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
-const PORT = 3000;
-const JWT_SECRET = 'campusclash_nextbyte_secret_2026';
+const PORT = process.env.PORT || 3000;
+const JWT_SECRET = process.env.JWT_SECRET || 'campusclash_nextbyte_secret_2026';
 const ADMIN_EMAIL = 'princeguptapg0106@gmail.com';
-const DB_PATH = path.join(__dirname, 'campusclash.db');
+const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'campusclash.db');
 
 // Middleware
 app.use(cors());
@@ -357,13 +357,14 @@ async function startServer() {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
   });
 
-  app.listen(PORT, () => {
+  app.listen(PORT, '0.0.0.0', () => {
     console.log(`
   ╔═══════════════════════════════════════════════╗
   ║                                               ║
   ║   🎮  Campus Clash Server Running!            ║
-  ║   🌐  http://localhost:${PORT}                  ║
+  ║   🌐  http://localhost:${PORT}                 ║
   ║   📦  NextByte Technologies                   ║
+  ║   📁  DB: ${DB_PATH}                          
   ║                                               ║
   ╚═══════════════════════════════════════════════╝
     `);
