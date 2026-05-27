@@ -3,7 +3,7 @@
    by NextByte Technologies
    ═══════════════════════════════════════════ */
 
-const API_URL = '';
+const API_URL = 'https://campusclash-phonepe-production.up.railway.app';
 let currentUser = null;
 let allTournaments = [];
 
