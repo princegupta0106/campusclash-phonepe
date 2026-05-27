@@ -1,5 +1,5 @@
 app = 'campusclash-phonepe'
-primary_region = 'sin'
+primary_region = 'ams'
 
 [build]
 
@@ -10,10 +10,5 @@ primary_region = 'sin'
   auto_start_machines = true
   min_machines_running = 0
 
-[mounts]
-  source = 'campusclash_data'
-  destination = '/data'
-
 [env]
   PORT = '8080'
-  DB_PATH = '/data/campusclash.db'
