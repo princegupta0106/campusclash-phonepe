@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Campus Clash - The ultimate campus tournament platform by NextByte Technologies. Organize and compete in gaming tournaments.">
+  <title>Campus Clash | NextByte Technologies</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo" onclick="navigateTo('home')">
+        <span class="logo-icon">⚡</span>
+        <div class="logo-text">
+          <span class="logo-main">Campus Clash</span>
+          <span class="logo-sub">by NextByte Technologies</span>
+        </div>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="#" class="nav-link active" data-page="home" onclick="navigateTo('home')">Home</a>
+        <a href="#" class="nav-link" data-page="about" onclick="navigateTo('about')">About</a>
+        <a href="#" class="nav-link" data-page="contact" onclick="navigateTo('contact')">Contact</a>
+        <a href="#" class="nav-link" data-page="help" onclick="navigateTo('help')">Help</a>
+        <a href="#" class="nav-link" data-page="my-tournaments" onclick="navigateTo('my-tournaments')" id="myTournamentsLink" style="display:none;">My Tournaments</a>
+        <a href="#" class="nav-link admin-link" data-page="admin" onclick="navigateTo('admin')" id="adminLink" style="display:none;">Admin Panel</a>
+      </div>
+      <div class="nav-actions">
+        <div id="authButtons">
+          <button class="btn btn-ghost" onclick="navigateTo('login')">Log In</button>
+          <button class="btn btn-primary" onclick="navigateTo('register')">Sign Up</button>
+        </div>
+        <div id="userMenu" style="display:none;">
+          <div class="user-avatar" id="userAvatar" onclick="toggleUserDropdown()">
+            <span id="userInitial">U</span>
+          </div>
+          <div class="user-dropdown" id="userDropdown">
+            <div class="dropdown-header">
+              <span class="dropdown-name" id="dropdownName">User</span>
+              <span class="dropdown-email" id="dropdownEmail">user@email.com</span>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" onclick="navigateTo('my-tournaments')">🏆 My Tournaments</a>
+            <a class="dropdown-item" onclick="logout()">🚪 Logout</a>
+          </div>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main id="mainContent">
+
+    <!-- ════════ HOME PAGE ════════ -->
+    <section id="page-home" class="page active">
+      <!-- Hero Section -->
+      <div class="hero">
+        <div class="hero-content">
+          <div class="hero-badge">🎮 Campus Gaming Platform</div>
+          <h1 class="hero-title">
+            Where Champions<br>
+            <span class="gradient-text">Are Forged</span>
+          </h1>
+          <p class="hero-subtitle">Join the most exciting campus tournaments. Compete, conquer, and claim your glory in the ultimate gaming battleground.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-lg" onclick="document.getElementById('upcoming-section').scrollIntoView({behavior:'smooth'})">
+              <span>Explore Tournaments</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <button class="btn btn-outline btn-lg" onclick="navigateTo('about')">Learn More</button>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-number" id="statTournaments">0</span>
+              <span class="stat-label">Tournaments</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" id="statPlayers">0</span>
+              <span class="stat-label">Players</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">₹50K+</span>
+              <span class="stat-label">Prize Pool</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-card-stack">
+            <div class="floating-card fc-1">🎯 Valorant</div>
+            <div class="floating-card fc-2">🔫 BGMI</div>
+            <div class="floating-card fc-3">⚽ FIFA</div>
+            <div class="floating-card fc-4">♟️ Chess</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upcoming Tournaments -->
+      <div class="section" id="upcoming-section">
+        <div class="section-header">
+          <div>
+            <span class="section-badge">🔥 Live & Upcoming</span>
+            <h2 class="section-title">Upcoming Tournaments</h2>
+            <p class="section-subtitle">Don't miss out — register now and secure your spot!</p>
+          </div>
+        </div>
+        <div class="tournament-grid" id="upcomingGrid">
+          <div class="loading-skeleton">
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Past Tournaments -->
+      <div class="section">
+        <div class="section-header">
+          <div>
+            <span class="section-badge">📜 Completed</span>
+            <h2 class="section-title">Past Tournaments</h2>
+            <p class="section-subtitle">Check out the results from previous tournaments.</p>
+          </div>
+        </div>
+        <div class="tournament-grid" id="pastGrid">
+          <div class="loading-skeleton">
+            <div class="skeleton-card"></div>
+          </div>
+        </div>
+        <div class="empty-state" id="pastEmpty" style="display:none;">
+          <span class="empty-icon">📭</span>
+          <p>No past tournaments yet.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ LOGIN PAGE ════════ -->
+    <section id="page-login" class="page">
+      <div class="auth-container">
+        <div class="auth-card">
+          <div class="auth-header">
+            <span class="auth-icon">🔑</span>
+            <h2>Welcome Back</h2>
+            <p>Log in to your Campus Clash account</p>
+          </div>
+          <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="form-group">
+              <label for="loginEmail">Email Address</label>
+              <input type="email" id="loginEmail" placeholder="you@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="loginPassword">Password</label>
+              <input type="password" id="loginPassword" placeholder="••••••••" required>
+            </div>
+            <div class="form-error" id="loginError"></div>
+            <button type="submit" class="btn btn-primary btn-full" id="loginBtn">
+              <span>Log In</span>
+            </button>
+          </form>
+          <div class="auth-footer">
+            Don't have an account? <a href="#" onclick="navigateTo('register')">Sign Up</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ REGISTER PAGE ════════ -->
+    <section id="page-register" class="page">
+      <div class="auth-container">
+        <div class="auth-card">
+          <div class="auth-header">
+            <span class="auth-icon">🚀</span>
+            <h2>Join the Arena</h2>
+            <p>Create your Campus Clash account</p>
+          </div>
+          <form id="registerForm" onsubmit="handleRegister(event)">
+            <div class="form-group">
+              <label for="regName">Full Name</label>
+              <input type="text" id="regName" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+              <label for="regEmail">Email Address</label>
+              <input type="email" id="regEmail" placeholder="you@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="regPassword">Password</label>
+              <input type="password" id="regPassword" placeholder="Min 6 characters" required minlength="6">
+            </div>
+            <div class="form-error" id="registerError"></div>
+            <button type="submit" class="btn btn-primary btn-full" id="registerBtn">
+              <span>Create Account</span>
+            </button>
+          </form>
+          <div class="auth-footer">
+            Already have an account? <a href="#" onclick="navigateTo('login')">Log In</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ TOURNAMENT DETAIL PAGE ════════ -->
+    <section id="page-tournament" class="page">
+      <div class="tournament-detail" id="tournamentDetail">
+        <!-- Filled by JS -->
+      </div>
+    </section>
+
+    <!-- ════════ PAYMENT PAGE ════════ -->
+    <section id="page-payment" class="page">
+      <div class="payment-container" id="paymentContainer">
+        <!-- Filled by JS -->
+      </div>
+    </section>
+
+    <!-- ════════ MY TOURNAMENTS PAGE ════════ -->
+    <section id="page-my-tournaments" class="page">
+      <div class="section page-section">
+        <div class="section-header">
+          <div>
+            <span class="section-badge">🏆 Your Journey</span>
+            <h2 class="section-title">My Tournaments</h2>
+            <p class="section-subtitle">All tournaments you've registered for</p>
+          </div>
+        </div>
+        <div class="my-tournaments-list" id="myTournamentsList">
+          <div class="loading-skeleton">
+            <div class="skeleton-card"></div>
+          </div>
+        </div>
+        <div class="empty-state" id="myTournamentsEmpty" style="display:none;">
+          <span class="empty-icon">🎮</span>
+          <p>You haven't registered for any tournaments yet.</p>
+          <button class="btn btn-primary" onclick="navigateTo('home')">Browse Tournaments</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ ADMIN PAGE ════════ -->
+    <section id="page-admin" class="page">
+      <div class="section page-section">
+        <div class="section-header">
+          <div>
+            <span class="section-badge admin-badge">👑 Admin Panel</span>
+            <h2 class="section-title">Dashboard</h2>
+          </div>
+        </div>
+
+        <!-- Admin Stats -->
+        <div class="admin-stats" id="adminStats">
+          <div class="admin-stat-card">
+            <span class="admin-stat-icon">👥</span>
+            <div>
+              <span class="admin-stat-number" id="adminTotalUsers">0</span>
+              <span class="admin-stat-label">Total Users</span>
+            </div>
+          </div>
+          <div class="admin-stat-card">
+            <span class="admin-stat-icon">🏆</span>
+            <div>
+              <span class="admin-stat-number" id="adminTotalTournaments">0</span>
+              <span class="admin-stat-label">Tournaments</span>
+            </div>
+          </div>
+          <div class="admin-stat-card">
+            <span class="admin-stat-icon">📋</span>
+            <div>
+              <span class="admin-stat-number" id="adminTotalRegistrations">0</span>
+              <span class="admin-stat-label">Registrations</span>
+            </div>
+          </div>
+          <div class="admin-stat-card">
+            <span class="admin-stat-icon">💰</span>
+            <div>
+              <span class="admin-stat-number" id="adminTotalRevenue">₹0</span>
+              <span class="admin-stat-label">Revenue</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Create Tournament -->
+        <div class="admin-section">
+          <h3 class="admin-section-title">➕ Create New Tournament</h3>
+          <form id="createTournamentForm" class="admin-form" onsubmit="handleCreateTournament(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="tName">Tournament Name</label>
+                <input type="text" id="tName" placeholder="e.g. Valorant Showdown" required>
+              </div>
+              <div class="form-group">
+                <label for="tGame">Game</label>
+                <input type="text" id="tGame" placeholder="e.g. Valorant" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="tDesc">Description</label>
+              <textarea id="tDesc" rows="3" placeholder="Describe the tournament..."></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="tVenue">Venue</label>
+                <input type="text" id="tVenue" placeholder="e.g. Main Auditorium" required>
+              </div>
+              <div class="form-group">
+                <label for="tFees">Entry Fee (₹)</label>
+                <input type="number" id="tFees" placeholder="0" min="0" value="0" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="tDate">Date</label>
+                <input type="date" id="tDate" required>
+              </div>
+              <div class="form-group">
+                <label for="tTime">Time</label>
+                <input type="time" id="tTime" required>
+              </div>
+              <div class="form-group">
+                <label for="tMax">Max Participants</label>
+                <input type="number" id="tMax" placeholder="100" min="2" value="100" required>
+              </div>
+            </div>
+            <div class="form-error" id="createTournamentError"></div>
+            <button type="submit" class="btn btn-primary">Create Tournament</button>
+          </form>
+        </div>
+
+        <!-- Manage Tournaments -->
+        <div class="admin-section">
+          <h3 class="admin-section-title">📋 Manage Tournaments</h3>
+          <div id="adminTournamentsList"></div>
+        </div>
+
+        <!-- Recent Registrations -->
+        <div class="admin-section">
+          <h3 class="admin-section-title">📝 Recent Registrations</h3>
+          <div class="admin-table-container" id="recentRegistrations"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ ABOUT PAGE ════════ -->
+    <section id="page-about" class="page">
+      <div class="section page-section">
+        <div class="content-page">
+          <div class="content-header">
+            <span class="section-badge">🏢 Who We Are</span>
+            <h1 class="section-title">About Campus Clash</h1>
+          </div>
+          <div class="content-body">
+            <div class="about-hero-text">
+              <p class="lead-text">Campus Clash is the premier campus tournament platform built by <strong>NextByte Technologies</strong>. We believe in empowering student gamers and fostering a competitive spirit on campus.</p>
+            </div>
+            <div class="about-grid">
+              <div class="about-card">
+                <span class="about-card-icon">🎯</span>
+                <h3>Our Mission</h3>
+                <p>To create an accessible, fair, and exciting competitive gaming ecosystem for college students across India.</p>
+              </div>
+              <div class="about-card">
+                <span class="about-card-icon">🌟</span>
+                <h3>Our Vision</h3>
+                <p>To become the go-to platform for campus esports, connecting thousands of student gamers and organizers.</p>
+              </div>
+              <div class="about-card">
+                <span class="about-card-icon">🤝</span>
+                <h3>Our Values</h3>
+                <p>Fair play, inclusivity, innovation, and community. We believe gaming brings people together.</p>
+              </div>
+              <div class="about-card">
+                <span class="about-card-icon">🏗️</span>
+                <h3>NextByte Technologies</h3>
+                <p>A student-led tech startup focused on building innovative solutions for the education and gaming sectors.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ CONTACT PAGE ════════ -->
+    <section id="page-contact" class="page">
+      <div class="section page-section">
+        <div class="content-page">
+          <div class="content-header">
+            <span class="section-badge">📬 Get In Touch</span>
+            <h1 class="section-title">Contact Us</h1>
+            <p class="section-subtitle">Have questions, suggestions, or want to partner with us? We'd love to hear from you!</p>
+          </div>
+          <div class="contact-layout">
+            <div class="contact-info">
+              <div class="contact-info-card">
+                <span class="contact-icon">📧</span>
+                <div>
+                  <h4>Email</h4>
+                  <p>princeguptapg0106@gmail.com</p>
+                </div>
+              </div>
+              <div class="contact-info-card">
+                <span class="contact-icon">📱</span>
+                <div>
+                  <h4>Phone</h4>
+                  <p>+91 99837 98590</p>
+                </div>
+              </div>
+              <div class="contact-info-card">
+                <span class="contact-icon">📍</span>
+                <div>
+                  <h4>Address</h4>
+                  <p>NextByte Technologies<br>Pratap Nagar, Sector 26<br>Jaipur, Rajasthan, India</p>
+                </div>
+              </div>
+            </div>
+            <form class="contact-form" id="contactForm" onsubmit="handleContact(event)">
+              <div class="form-group">
+                <label for="contactName">Your Name</label>
+                <input type="text" id="contactName" placeholder="Full name" required>
+              </div>
+              <div class="form-group">
+                <label for="contactEmail">Email Address</label>
+                <input type="email" id="contactEmail" placeholder="you@example.com" required>
+              </div>
+              <div class="form-group">
+                <label for="contactSubject">Subject</label>
+                <input type="text" id="contactSubject" placeholder="How can we help?" required>
+              </div>
+              <div class="form-group">
+                <label for="contactMessage">Message</label>
+                <textarea id="contactMessage" rows="5" placeholder="Write your message here..." required></textarea>
+              </div>
+              <div class="form-error form-success" id="contactSuccess" style="display:none;"></div>
+              <div class="form-error" id="contactError"></div>
+              <button type="submit" class="btn btn-primary btn-full">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ HELP PAGE ════════ -->
+    <section id="page-help" class="page">
+      <div class="section page-section">
+        <div class="content-page">
+          <div class="content-header">
+            <span class="section-badge">❓ FAQ & Support</span>
+            <h1 class="section-title">Help Center</h1>
+            <p class="section-subtitle">Find answers to common questions about Campus Clash.</p>
+          </div>
+          <div class="faq-list">
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">
+                <span>How do I register for a tournament?</span>
+                <span class="faq-toggle">+</span>
+              </div>
+              <div class="faq-answer">
+                <p>First, create an account or log in. Then browse the available tournaments on the home page, click on one you'd like to join, and click the "Register Now" button. You'll be directed to the payment page to complete your registration.</p>
+              </div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">
+                <span>What payment methods are accepted?</span>
+                <span class="faq-toggle">+</span>
+              </div>
+              <div class="faq-answer">
+                <p>We currently accept payments via PhonePe (UPI). More payment options including credit/debit cards and other UPI apps will be added soon.</p>
+              </div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">
+                <span>Can I get a refund after registering?</span>
+                <span class="faq-toggle">+</span>
+              </div>
+              <div class="faq-answer">
+                <p>Refunds are handled on a case-by-case basis. If you need to cancel your registration, please contact us at support@nextbytetech.com at least 48 hours before the tournament starts.</p>
+              </div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">
+                <span>How do I know when a tournament starts?</span>
+                <span class="faq-toggle">+</span>
+              </div>
+              <div class="faq-answer">
+                <p>Tournament details including date, time, and venue are displayed on each tournament's page. You can also check the "My Tournaments" section after logging in to see all your registered tournaments.</p>
+              </div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">
+                <span>Who organizes these tournaments?</span>
+                <span class="faq-toggle">+</span>
+              </div>
+              <div class="faq-answer">
+                <p>Campus Clash tournaments are organized by NextByte Technologies in collaboration with college clubs and gaming communities. If you'd like to organize a tournament, reach out to us!</p>
+              </div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">
+                <span>Is there a team size requirement?</span>
+                <span class="faq-toggle">+</span>
+              </div>
+              <div class="faq-answer">
+                <p>Team size requirements vary by game. For example, Valorant requires a team of 5, BGMI requires a squad of 4, while FIFA and Chess are individual competitions. Check each tournament's details for specific requirements.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" id="footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <span class="logo-icon">⚡</span>
+            <div>
+              <span class="logo-main">Campus Clash</span>
+              <span class="logo-sub">by NextByte Technologies</span>
+            </div>
+          </div>
+          <p class="footer-desc">The ultimate campus gaming tournament platform. Compete, conquer, and become the champion.</p>
+        </div>
+        <div class="footer-links-group">
+          <h4>Quick Links</h4>
+          <a href="#" onclick="navigateTo('home')">Home</a>
+          <a href="#" onclick="navigateTo('about')">About</a>
+          <a href="#" onclick="navigateTo('contact')">Contact</a>
+          <a href="#" onclick="navigateTo('help')">Help</a>
+        </div>
+        <div class="footer-links-group">
+          <h4>Legal</h4>
+          <a href="#">Terms of Service</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Refund Policy</a>
+        </div>
+        <div class="footer-links-group">
+          <h4>Connect</h4>
+          <a href="#">Instagram</a>
+          <a href="#">Twitter</a>
+          <a href="#">Discord</a>
+          <a href="#">LinkedIn</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 NextByte Technologies. All rights reserved.</p>
+        <p>Made with ❤️ for campus gamers</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
